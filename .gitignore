@@ -1,0 +1,6 @@
+notes-backend/target/
+notes-backend/.idea/
+notes-backend/*.iml
+notes-frontend/node_modules/
+notes-frontend/dist/
+notes-backend/src/main/resources/application.properties
