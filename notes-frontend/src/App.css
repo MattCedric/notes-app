@@ -40,11 +40,10 @@
 }
 
 .app-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Geo', sans-serif;
   font-size: 1.35rem;
-  font-weight: 600;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
 }
 
 .note-count {
@@ -384,4 +383,67 @@
   .sidebar { height: auto; position: static; }
   .notes-grid { padding: 1.25rem; }
   .main-header { padding: 1.25rem; }
+}
+
+/* Geolocation badge */
+.geo-badge {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 0.25rem 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+}
+
+/* Quote box */
+.quote-box {
+  margin-top: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.5rem;
+  max-width: 420px;
+  text-align: left;
+}
+
+.quote-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.quote-author {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.sidebar-quote {
+  margin: 1rem 1.75rem;
+  padding: 0.875rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--surface2);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.sidebar-quote-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 0.35rem;
+}
+
+.sidebar-quote-author {
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 500;
 }

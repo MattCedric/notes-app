@@ -1,30 +1,47 @@
 import { useState, useEffect } from 'react';
 import { getNotes, createNote, updateNote, deleteNote } from './api/notesApi';
+import { getLocation } from './api/geoApi';
+import { getQuote } from './api/quoteApi';
 import NoteForm from './components/NoteForm';
 import NoteCard from './components/NoteCard';
 import './App.css';
 
 export default function App() {
-  const [notes, setNotes]     = useState([]);
-  const [editing, setEditing] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [notes,    setNotes]    = useState([]);
+  const [editing,  setEditing]  = useState(null);
+  const [loading,  setLoading]  = useState(true);
+  const [location, setLocation] = useState(null);
+  const [quote,    setQuote]    = useState(null);
 
   const load = async () => {
-    const { data } = await getNotes();
-    setNotes(data);
-    setLoading(false);
+    try {
+      const { data } = await getNotes();
+      setNotes(data);
+    } catch (err) {
+      console.error('Failed to load notes:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    getLocation().then(setLocation).catch(() => {});
+    getQuote().then(setQuote).catch(() => {});
+  }, []);
 
   const handleSave = async (note) => {
-    if (editing) {
-      await updateNote(editing.id, note);
-      setEditing(null);
-    } else {
-      await createNote(note);
+    try {
+      if (editing) {
+        await updateNote(editing.id, note);
+        setEditing(null);
+      } else {
+        await createNote(note);
+      }
+      load();
+    } catch (err) {
+      console.error('Failed to save note:', err);
     }
-    load();
   };
 
   const handleDelete = async (id) => {
@@ -40,6 +57,7 @@ export default function App() {
     <div className="layout">
       {/* Sidebar */}
       <aside className="sidebar">
+
         <div className="sidebar-header">
           <div className="logo-row">
             <div className="logo-icon">📝</div>
@@ -48,6 +66,21 @@ export default function App() {
           <div className="note-count">
             {notes.length} {notes.length === 1 ? 'note' : 'notes'}
           </div>
+
+          {/* Geolocation */}
+          {location && (
+  <div className="geo-badge">
+    📍 {location.city}, {location.country}
+  </div>
+)}
+
+          {/* Quote */}
+          {quote && (
+            <div className="sidebar-quote">
+              <p className="sidebar-quote-text">"{quote.quote}"</p>
+              <span className="sidebar-quote-author">— {quote.author}</span>
+            </div>
+          )}
         </div>
 
         <NoteForm
@@ -75,6 +108,7 @@ export default function App() {
             </div>
           ))}
         </div>
+
       </aside>
 
       {/* Main panel */}
